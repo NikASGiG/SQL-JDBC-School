@@ -2,37 +2,37 @@ package ua.foxminded.nikasgig.sqljdbcschool.model;
 
 public class Course {
     
-    private int courseId;
-    private String courseName;
-    private String courseDescription;
+    private int id;
+    private String name;
+    private String description;
 
     public Course(int courseId, String courseName, String courseDescription) {
-        this.courseId = courseId;
-        this.courseName = courseName;
-        this.courseDescription = courseDescription;
+        this.id = courseId;
+        this.name = courseName;
+        this.description = courseDescription;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public int getId() {
+        return id;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getName() {
+        return name;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCourseDescription() {
-        return courseDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCourseDescription(String courseDescription) {
-        this.courseDescription = courseDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

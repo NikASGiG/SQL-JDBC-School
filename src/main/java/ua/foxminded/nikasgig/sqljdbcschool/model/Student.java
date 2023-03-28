@@ -2,24 +2,24 @@ package ua.foxminded.nikasgig.sqljdbcschool.model;
 
 public class Student {
     
-    private int studentId;
+    private int id;
     private int groupId;
     private String firstName;
     private String lastName;
 
     public Student(int studentId, int groupId, String firstName, String lastName) {
-        this.studentId = studentId;
+        this.id = studentId;
         this.groupId = groupId;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public int getId() {
+        return id;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setId(int studentId) {
+        this.id = studentId;
     }
 
     public int getGroupId() {

@@ -20,7 +20,7 @@ public class GeneratorTestDataService {
     private static final String[] COURSES = { "Mathematics", "Biology", "History", "Physics", "Chemistry",
             "Computer Science", "Literature", "Psychology", "Economics", "Art" };
 
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     public static List<Group> generateGroupData(int numGroups) {
         List<Group> groupData = new ArrayList<>();
@@ -33,11 +33,11 @@ public class GeneratorTestDataService {
     private static String generateGroup() {
         String result = "";
         for (int i = 0; i < 2; i++) {
-            result += (char) (random.nextInt(26) + 'a');
+            result += (char) (RANDOM.nextInt(26) + 'a');
         }
         result += "-";
         for (int i = 0; i < 2; i++) {
-            result += (int) random.nextInt(10);
+            result += (int) RANDOM.nextInt(10);
         }
         return result;
     }
@@ -45,7 +45,7 @@ public class GeneratorTestDataService {
     public static List<Course> generateCourseData(int numCourses) {
         List<Course> courseData = new ArrayList<>();
         for (int i = 1; i <= numCourses; i++) {
-            String courseName = COURSES[random.nextInt(COURSES.length)];
+            String courseName = COURSES[RANDOM.nextInt(COURSES.length)];
             courseData.add(new Course(i, courseName, "some information"));
         }
         return courseData;
@@ -54,8 +54,8 @@ public class GeneratorTestDataService {
     public static List<Student> generateStudentData(int numStudents) {
         List<Student> studentData = new ArrayList<>();
         for (int i = 1; i <= numStudents; i++) {
-            studentData.add(new Student(i, 1, FIRST_NAMES[random.nextInt(FIRST_NAMES.length)],
-                    LAST_NAMES[random.nextInt(LAST_NAMES.length)]));
+            studentData.add(new Student(i, 1, FIRST_NAMES[RANDOM.nextInt(FIRST_NAMES.length)],
+                    LAST_NAMES[RANDOM.nextInt(LAST_NAMES.length)]));
         }
         return studentData;
     }
@@ -63,12 +63,24 @@ public class GeneratorTestDataService {
     public static List<Integer> generateIntList(int num) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < num; i++) {
-            result.add(random.nextInt(10));
+            result.add(RANDOM.nextInt(10));
         }
         return result;
     }
 
     public static int random10to30() {
-        return random.nextInt(21) + 10;
+        return RANDOM.nextInt(21) + 10;
+    }
+
+    public static String[] getCourses() {
+        return COURSES;
+    }
+
+    public static List<Integer> generateIntListForStudentCourse(int num) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < num; i++) {
+            result.add(RANDOM.nextInt(10) + 1);
+        }
+        return result;
     }
 }
