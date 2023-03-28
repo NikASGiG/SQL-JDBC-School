@@ -2,27 +2,27 @@ package ua.foxminded.nikasgig.sqljdbcschool.model;
 
 public class Group {
     
-    private int groupId;
-    private String groupName;
+    private int id;
+    private String name;
 
     public Group(int groupId, String groupName) {
-        this.groupId = groupId;
-        this.groupName = groupName;
+        this.id = groupId;
+        this.name = groupName;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public int getId() {
+        return id;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getName() {
+        return name;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setName(String name) {
+        this.name = name;
     }
 }
