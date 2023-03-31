@@ -76,6 +76,16 @@ public class GeneratorTestDataService {
         return COURSES;
     }
 
+    public static String getCoursesWithNumbers() {
+        StringBuilder result = new StringBuilder(COURSES.length);
+        int index = 0;
+        for (String course : COURSES) {
+            result.append(index + 1 + " " + course + "\n");
+            index++;
+        }
+        return result.toString();
+    }
+
     public static List<Integer> generateIntListForStudentCourse(int num) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < num; i++) {

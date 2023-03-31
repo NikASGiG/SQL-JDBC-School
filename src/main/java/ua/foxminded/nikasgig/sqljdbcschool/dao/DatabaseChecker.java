@@ -1,11 +1,9 @@
 package ua.foxminded.nikasgig.sqljdbcschool.dao;
 
-import java.sql.*;
-
 public class DatabaseChecker {
 
-    public static void complexCheck(Connection connection) {
-        DatabaseManager databaseManager = new DatabaseManager(connection);
+    public static void complexCheck() {
+        DatabaseManager databaseManager = new DatabaseManager();
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -14,10 +12,8 @@ public class DatabaseChecker {
         System.out.println("Checking user existence...");
         databaseManager.createUser();
         System.out.println("Checking database existence...");
-        // databaseManager.dropDatabase();
-        // databaseManager.createDatabase();
+        databaseManager.createDatabase();
         System.out.println("Checking tables existence...");
-        databaseManager.dropTables();
         databaseManager.createTables();
     }
 }

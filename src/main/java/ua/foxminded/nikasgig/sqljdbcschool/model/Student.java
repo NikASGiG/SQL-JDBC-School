@@ -1,7 +1,7 @@
 package ua.foxminded.nikasgig.sqljdbcschool.model;
 
 public class Student {
-    
+
     private int id;
     private int groupId;
     private String firstName;
@@ -44,5 +44,10 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "\n" + id + " " + firstName + " " + lastName;
     }
 }

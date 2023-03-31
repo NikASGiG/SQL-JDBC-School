@@ -25,4 +25,9 @@ public class StudentCourse {
     public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
+
+    @Override
+    public String toString() {
+        return "StudentCourse [studentId=" + studentId + ", courseId=" + courseId + "]";
+    }
 }

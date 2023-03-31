@@ -11,63 +11,73 @@ import ua.foxminded.nikasgig.sqljdbcschool.model.StudentCourse;
 
 public class StudentCourseDAO {
 
-    private Connection connection;
-
-    public StudentCourseDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public void create(StudentCourse studentCourse) throws SQLException {
+    public void create(StudentCourse studentCourse) {
         String query = "INSERT INTO student_course (student_id, course_id) VALUES (?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, studentCourse.getStudentId());
             statement.setInt(2, studentCourse.getCourseId());
             statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public List<StudentCourse> read(int studentId, int courseId) throws SQLException {
+    public List<StudentCourse> read(int studentId, int courseId) {
         List<StudentCourse> result = new ArrayList<>();
         String query = "SELECT * FROM student_course WHERE student_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, studentId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     result.add(new StudentCourse(resultSet.getInt("student_id"), resultSet.getInt("course_id")));
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return result;
     }
 
-    public void update(StudentCourse studentCourse) throws SQLException {
+    public void update(StudentCourse studentCourse) {
         String query = "UPDATE student_course SET student_id = ?, course_id = ? WHERE student_id = ? AND course_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, studentCourse.getStudentId());
             statement.setInt(2, studentCourse.getCourseId());
             statement.setInt(3, studentCourse.getStudentId());
             statement.setInt(4, studentCourse.getCourseId());
             statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void delete(int studentId, int courseId) throws SQLException {
-        String query = "DELETE FROM student_course WHERE student_id = ? AND course_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, studentId);
-            statement.setInt(2, courseId);
-            statement.executeUpdate();
+    public void delete(int studentId, int courseId) {
+        try (Connection connection = ConnectionUtil.getConnection()) {
+            String query = "DELETE FROM student_course WHERE student_id = ? AND course_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, studentId);
+                statement.setInt(2, courseId);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public List<StudentCourse> getAll() throws SQLException {
+    public List<StudentCourse> getAll() {
         List<StudentCourse> studentCourses = new ArrayList<>();
         String query = "SELECT * FROM student_course";
-        try (PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query);
                 ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 studentCourses.add(new StudentCourse(resultSet.getInt("student_id"), resultSet.getInt("course_id")));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return studentCourses;
     }

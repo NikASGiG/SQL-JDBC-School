@@ -4,19 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ua.foxminded.nikasgig.sqljdbcschool.model.Group;
 
 public class GroupDAO {
-    
-    private Connection connection;
-
-    public GroupDAO(Connection connection) {
-        this.connection = connection;
-    }
 
     public void create(Group group) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO groups (name) VALUES (?)")) {
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO groups (name) VALUES (?)")) {
             statement.setString(1, group.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -26,7 +23,8 @@ public class GroupDAO {
 
     public Group read(int groupId) {
         Group group = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM groups WHERE id = ?")) {
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM groups WHERE id = ?")) {
             statement.setInt(1, groupId);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
@@ -38,8 +36,29 @@ public class GroupDAO {
         return group;
     }
 
+    public List<Group> readList(int number) {
+        List<Group> groups = new ArrayList<>();
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection
+                        .prepareStatement("SELECT * FROM groups WHERE group_id IN (SELECT group_id FROM students "
+                                + "GROUP BY group_id HAVING COUNT(*) <= ?)")) {
+            statement.setInt(1, number);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("group_id");
+                String name = resultSet.getString("group_name");
+                Group group = new Group(id, name);
+                groups.add(group);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groups;
+    }
+
     public void update(Group group) {
-        try (PreparedStatement statement = connection.prepareStatement("UPDATE groups SET name = ? WHERE id = ?")) {
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement("UPDATE groups SET name = ? WHERE id = ?")) {
             statement.setString(1, group.getName());
             statement.setInt(2, group.getId());
             statement.executeUpdate();
@@ -49,7 +68,8 @@ public class GroupDAO {
     }
 
     public void delete(int groupId) {
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM groups WHERE id = ?")) {
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM groups WHERE id = ?")) {
             statement.setInt(1, groupId);
             statement.executeUpdate();
         } catch (SQLException e) {
