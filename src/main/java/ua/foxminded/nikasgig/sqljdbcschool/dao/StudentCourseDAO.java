@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.foxminded.nikasgig.sqljdbcschool.exception.DataProcessingException;
 import ua.foxminded.nikasgig.sqljdbcschool.model.StudentCourse;
 
 public class StudentCourseDAO {
@@ -19,7 +20,7 @@ public class StudentCourseDAO {
             statement.setInt(2, studentCourse.getCourseId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 
@@ -35,23 +36,9 @@ public class StudentCourseDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
         return result;
-    }
-
-    public void update(StudentCourse studentCourse) {
-        String query = "UPDATE student_course SET student_id = ?, course_id = ? WHERE student_id = ? AND course_id = ?";
-        try (Connection connection = ConnectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, studentCourse.getStudentId());
-            statement.setInt(2, studentCourse.getCourseId());
-            statement.setInt(3, studentCourse.getStudentId());
-            statement.setInt(4, studentCourse.getCourseId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void delete(int studentId, int courseId) {
@@ -63,7 +50,7 @@ public class StudentCourseDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 
@@ -77,7 +64,7 @@ public class StudentCourseDAO {
                 studentCourses.add(new StudentCourse(resultSet.getInt("student_id"), resultSet.getInt("course_id")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
         return studentCourses;
     }

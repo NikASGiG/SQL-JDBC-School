@@ -14,6 +14,12 @@ public class Student {
         this.lastName = lastName;
     }
 
+    public Student(int groupId, String firstName, String lastName) {
+        this.groupId = groupId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public int getId() {
         return id;
     }
@@ -48,6 +54,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "\n" + id + " " + firstName + " " + lastName;
+        return "\n" + firstName + " " + lastName;
     }
 }

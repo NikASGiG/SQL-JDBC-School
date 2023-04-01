@@ -36,7 +36,7 @@ public class DataService {
     }
 
     public Student createNewStudent(String firstName, String lastName) {
-        Student student = new Student(studentDAO.getMax(), 0, firstName, lastName);
+        Student student = new Student(0, firstName, lastName);
         studentDAO.create(student);
         return student;
     }

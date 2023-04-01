@@ -53,8 +53,8 @@ public class GeneratorTestDataService {
 
     public static List<Student> generateStudentData(int numStudents) {
         List<Student> studentData = new ArrayList<>();
-        for (int i = 1; i <= numStudents; i++) {
-            studentData.add(new Student(i, 1, FIRST_NAMES[RANDOM.nextInt(FIRST_NAMES.length)],
+        for (int i = 0; i <= numStudents; i++) {
+            studentData.add(new Student(1, FIRST_NAMES[RANDOM.nextInt(FIRST_NAMES.length)],
                     LAST_NAMES[RANDOM.nextInt(LAST_NAMES.length)]));
         }
         return studentData;
