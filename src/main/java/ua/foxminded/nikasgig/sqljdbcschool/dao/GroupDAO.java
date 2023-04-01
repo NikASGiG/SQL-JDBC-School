@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.foxminded.nikasgig.sqljdbcschool.exception.DataProcessingException;
 import ua.foxminded.nikasgig.sqljdbcschool.model.Group;
 
 public class GroupDAO {
@@ -17,7 +18,7 @@ public class GroupDAO {
             statement.setString(1, group.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 
@@ -31,7 +32,7 @@ public class GroupDAO {
                 group = new Group(result.getInt("id"), result.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
         return group;
     }
@@ -51,7 +52,7 @@ public class GroupDAO {
                 groups.add(group);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
         return groups;
     }
@@ -63,7 +64,7 @@ public class GroupDAO {
             statement.setInt(2, group.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 
@@ -73,7 +74,7 @@ public class GroupDAO {
             statement.setInt(1, groupId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 }

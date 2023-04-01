@@ -7,23 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.foxminded.nikasgig.sqljdbcschool.exception.DataProcessingException;
 import ua.foxminded.nikasgig.sqljdbcschool.model.Student;
 
 public class StudentDAO {
-
-    public int getMax() {
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("(SELECT MAX(student_id) FROM students)")) {
-                ResultSet resultSet = statement.executeQuery();
-                if (resultSet.next()) {
-                    return resultSet.getInt(1) + 1;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
     public List<Student> findStudentsByCourseName(String courseName) {
         List<Student> students = new ArrayList<>();
@@ -34,13 +21,13 @@ public class StudentDAO {
                 statement.setString(1, courseName);
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
-                    Student student = new Student(resultSet.getInt("student_id"), resultSet.getInt("group_id"),
-                            resultSet.getString("first_name"), resultSet.getString("last_name"));
+                    Student student = new Student(resultSet.getInt("group_id"), resultSet.getString("first_name"),
+                            resultSet.getString("last_name"));
                     students.add(student);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
         return students;
     }
@@ -48,13 +35,13 @@ public class StudentDAO {
     public void create(Student student) {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection
-                    .prepareStatement("INSERT INTO students (student_id, first_name, last_name) VALUES (?, ?, ?)");
+                    .prepareStatement("INSERT INTO students (group_id, first_name, last_name) VALUES (?, ?, ?)");
             statement.setInt(1, student.getId());
             statement.setString(2, student.getFirstName());
             statement.setString(3, student.getLastName());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 
@@ -69,7 +56,7 @@ public class StudentDAO {
                         resultSet.getString("first_name"), resultSet.getString("last_name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
         return student;
     }
@@ -84,7 +71,7 @@ public class StudentDAO {
             statement.setInt(4, student.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 
@@ -94,7 +81,7 @@ public class StudentDAO {
                         .prepareStatement("DELETE FROM student_course WHERE student_id = " + studentId)) {
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 
@@ -104,7 +91,7 @@ public class StudentDAO {
             statement.setInt(1, studentId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataProcessingException("Data processing error occurred", e);
         }
     }
 }

@@ -41,9 +41,8 @@ public class InsertTestData {
 
     private void insertStudent() {
         for (Student element : GeneratorTestDataService.generateStudentData(200)) {
-            databaseManager.queryTestData("INSERT INTO students (student_id, group_id, first_name, last_name) "
-                    + "VALUES (" + element.getId() + ", " + element.getGroupId() + ", '" + element.getFirstName()
-                    + "', '" + element.getLastName() + "');");
+            databaseManager.queryTestData("INSERT INTO students (group_id, first_name, last_name) " + "VALUES ("
+                    + element.getGroupId() + ", '" + element.getFirstName() + "', '" + element.getLastName() + "');");
         }
     }
 
